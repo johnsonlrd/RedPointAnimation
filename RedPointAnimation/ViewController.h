@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RedPointView.h"
 
 @interface ViewController : UIViewController
 
+@property (nonatomic, strong) UIImageView *iconImageView;
+@property (nonatomic, strong) RedPointView *redPointView;
 
 @end
 

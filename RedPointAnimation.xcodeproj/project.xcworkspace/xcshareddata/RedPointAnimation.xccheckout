@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>2FF8781E-FD36-453B-BD2B-401B18296DE0</string>
+	<key>IDESourceControlProjectName</key>
+	<string>project</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>33B7F1A127854F1B66D8A1880E3C08033E8CB4D8</key>
+		<string>https://github.com/ChesterYue/RedPointAnimation.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>RedPointAnimation.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>33B7F1A127854F1B66D8A1880E3C08033E8CB4D8</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/ChesterYue/RedPointAnimation.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>33B7F1A127854F1B66D8A1880E3C08033E8CB4D8</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>33B7F1A127854F1B66D8A1880E3C08033E8CB4D8</string>
+			<key>IDESourceControlWCCName</key>
+			<string>RedPointAnimation</string>
+		</dict>
+	</array>
+</dict>
+</plist>
