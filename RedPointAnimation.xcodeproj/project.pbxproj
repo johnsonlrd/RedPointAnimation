@@ -16,8 +16,8 @@
 		C21CA71E1B6DB65400EA6E58 /* RedPointAnimationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C21CA71D1B6DB65400EA6E58 /* RedPointAnimationTests.m */; };
 		C21CA72C1B6DBAA800EA6E58 /* Message@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C21CA72B1B6DBAA800EA6E58 /* Message@2x.png */; };
 		C21CA72F1B6DBE1400EA6E58 /* RedPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = C21CA72E1B6DBE1400EA6E58 /* RedPointView.m */; };
-		C21CA7321B6DBE2E00EA6E58 /* RedPointViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C21CA7311B6DBE2E00EA6E58 /* RedPointViewController.m */; };
-		C21CA7351B6DBE4E00EA6E58 /* RedPointCalculateCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = C21CA7341B6DBE4E00EA6E58 /* RedPointCalculateCenter.m */; };
+		C2D858071B6E152F00442392 /* RedPointViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C2D858061B6E152F00442392 /* RedPointViewDelegate.m */; };
+		C2D8580A1B6E154D00442392 /* RedPointViewCalculateCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = C2D858091B6E154D00442392 /* RedPointViewCalculateCenter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,10 +47,10 @@
 		C21CA72B1B6DBAA800EA6E58 /* Message@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Message@2x.png"; sourceTree = "<group>"; };
 		C21CA72D1B6DBE1400EA6E58 /* RedPointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedPointView.h; sourceTree = "<group>"; };
 		C21CA72E1B6DBE1400EA6E58 /* RedPointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedPointView.m; sourceTree = "<group>"; };
-		C21CA7301B6DBE2E00EA6E58 /* RedPointViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedPointViewController.h; sourceTree = "<group>"; };
-		C21CA7311B6DBE2E00EA6E58 /* RedPointViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedPointViewController.m; sourceTree = "<group>"; };
-		C21CA7331B6DBE4E00EA6E58 /* RedPointCalculateCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedPointCalculateCenter.h; sourceTree = "<group>"; };
-		C21CA7341B6DBE4E00EA6E58 /* RedPointCalculateCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedPointCalculateCenter.m; sourceTree = "<group>"; };
+		C2D858051B6E152F00442392 /* RedPointViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedPointViewDelegate.h; sourceTree = "<group>"; };
+		C2D858061B6E152F00442392 /* RedPointViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedPointViewDelegate.m; sourceTree = "<group>"; };
+		C2D858081B6E154D00442392 /* RedPointViewCalculateCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedPointViewCalculateCenter.h; sourceTree = "<group>"; };
+		C2D858091B6E154D00442392 /* RedPointViewCalculateCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedPointViewCalculateCenter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,10 +98,10 @@
 				C21CA7091B6DB65400EA6E58 /* ViewController.m */,
 				C21CA72D1B6DBE1400EA6E58 /* RedPointView.h */,
 				C21CA72E1B6DBE1400EA6E58 /* RedPointView.m */,
-				C21CA7301B6DBE2E00EA6E58 /* RedPointViewController.h */,
-				C21CA7311B6DBE2E00EA6E58 /* RedPointViewController.m */,
-				C21CA7331B6DBE4E00EA6E58 /* RedPointCalculateCenter.h */,
-				C21CA7341B6DBE4E00EA6E58 /* RedPointCalculateCenter.m */,
+				C2D858051B6E152F00442392 /* RedPointViewDelegate.h */,
+				C2D858061B6E152F00442392 /* RedPointViewDelegate.m */,
+				C2D858081B6E154D00442392 /* RedPointViewCalculateCenter.h */,
+				C2D858091B6E154D00442392 /* RedPointViewCalculateCenter.m */,
 				C21CA70B1B6DB65400EA6E58 /* Main.storyboard */,
 				C21CA70E1B6DB65400EA6E58 /* Images.xcassets */,
 				C21CA72A1B6DBAA800EA6E58 /* Images */,
@@ -247,11 +247,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C21CA70A1B6DB65400EA6E58 /* ViewController.m in Sources */,
+				C2D8580A1B6E154D00442392 /* RedPointViewCalculateCenter.m in Sources */,
 				C21CA72F1B6DBE1400EA6E58 /* RedPointView.m in Sources */,
-				C21CA7351B6DBE4E00EA6E58 /* RedPointCalculateCenter.m in Sources */,
 				C21CA7071B6DB65400EA6E58 /* AppDelegate.m in Sources */,
+				C2D858071B6E152F00442392 /* RedPointViewDelegate.m in Sources */,
 				C21CA7041B6DB65400EA6E58 /* main.m in Sources */,
-				C21CA7321B6DBE2E00EA6E58 /* RedPointViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,6 +446,7 @@
 				C21CA7231B6DB65400EA6E58 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C21CA7241B6DB65400EA6E58 /* Build configuration list for PBXNativeTarget "RedPointAnimationTests" */ = {
 			isa = XCConfigurationList;
@@ -454,6 +455,7 @@
 				C21CA7261B6DB65400EA6E58 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

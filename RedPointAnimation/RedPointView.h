@@ -8,6 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@class RedPointViewDelegate;
+@class RedPointView;
+
+@protocol RedPointViewDelegate <NSObject>
+
+-(void) handleLongPressGR:(UILongPressGestureRecognizer *)longPressGR;
+
+@end
+
 @interface RedPointView : UIView
+
+@property (nonatomic, strong) UIColor *redPointColor;
+@property (nonatomic, strong) RedPointViewDelegate *redPointViewDelegate;
+@property (nonatomic, strong) UILongPressGestureRecognizer *longPressGR;
 
 @end

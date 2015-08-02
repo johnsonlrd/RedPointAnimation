@@ -1,5 +1,5 @@
 //
-//  RedPointCalculateCenter.h
+//  RedPointViewDelegate.h
 //  RedPointAnimation
 //
 //  Created by 余曦 on 8/2/15.
@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface RedPointCalculateCenter : NSObject
+@interface RedPointViewDelegate : NSObject
 
 @end

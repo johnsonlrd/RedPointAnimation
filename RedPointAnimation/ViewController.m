@@ -10,6 +10,7 @@
 
 #define SIZE_ICONIMAGEVIEW 72.0
 #define SIZE_REDPOINTVIEW 28.0
+#define COLOR_REDPOINT_BACKGROUND [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0]
 
 @interface ViewController ()
 
@@ -29,6 +30,7 @@
     [self.view addSubview:self.iconImageView];
     
     self.redPointView = [[RedPointView alloc] initWithFrame:CGRectMake(0.0, 0.0, SIZE_REDPOINTVIEW, SIZE_REDPOINTVIEW)];
+    self.redPointView.redPointColor = COLOR_REDPOINT_BACKGROUND;
     [self.view addSubview:self.redPointView];
 }
 
