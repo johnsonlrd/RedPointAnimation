@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 
 #define BOUNDS_SCREEN [[UIScreen mainScreen] bounds]
-#define MIN_RADIUS_FACTOR 0.5                                               //startPointCircle当前半径相对于初始半径的最小比例 
+#define MIN_RADIUS_FACTOR (0.5)                                               //startPointCircle当前半径相对于初始半径的最小比例 
 
 struct Circle{
     CGPoint centerPoint;

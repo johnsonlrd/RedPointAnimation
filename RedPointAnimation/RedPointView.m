@@ -9,6 +9,8 @@
 #import "RedPointView.h"
 #import "RedPointViewCalculateCenter.h"
 
+#define SIZE_BOMBANIMATIONVIEW (68.0 / 2.0)
+#define DURATION_BOMBANIMATION (0.2)
 
 @implementation RedPointView{
     struct Circle originalStartPointCircle;                 //原始起点处红点
@@ -18,6 +20,8 @@
     
     BOOL isOutMaxStretchRadius;                         //当前是否超出最大拉伸距离
     BOOL hasOutMaxStretchRadius;                        //曾经是否超出最大拉伸距离
+    
+    UIImageView *bombAnimationView;                 //爆炸动画
 }
 
 -(id) initWithFrame:(CGRect)frame redPointColor:(UIColor *)redPointColor maxStretchRadius:(CGFloat)maxStretchRadius{
@@ -27,9 +31,23 @@
         self.maxStretchRadius = maxStretchRadius;
         self.backgroundColor = [UIColor clearColor];
         self.isShowControlLines = YES;
+        [self initBombAnimationView];
         [self addGesture];
     }
     return self;
+}
+
+-(void) initBombAnimationView{
+    bombAnimationView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, SIZE_BOMBANIMATIONVIEW, SIZE_BOMBANIMATIONVIEW)];
+    NSMutableArray *bombAnimationImages = [NSMutableArray array];
+    for (int i = 0; i < 5; i ++) {
+        [bombAnimationImages addObject:[UIImage imageNamed:[NSString stringWithFormat:@"RedPointBomb_%d", i]]];
+    }
+    bombAnimationView.animationImages = bombAnimationImages;
+    bombAnimationView.animationDuration = DURATION_BOMBANIMATION;
+    bombAnimationView.animationRepeatCount = 1;
+    bombAnimationView.backgroundColor = [UIColor redColor];
+    [self addSubview:bombAnimationView];
 }
 
 -(void) addGesture{
@@ -41,6 +59,10 @@
 -(void) handleLongPressGR{
     //这里是一个小问题，本来是ended了,但是调用drawRect的时候就成了possible
     if (self.longPressGR.state == UIGestureRecognizerStateEnded) {
+        struct Circle tmpCircle = {moveToPointCircle.centerPoint, SIZE_BOMBANIMATIONVIEW / 2.0};
+        bombAnimationView.frame = [RedPointViewCalculateCenter getRectFromCircle:tmpCircle];
+        [bombAnimationView startAnimating];
+        
         self.frame = [RedPointViewCalculateCenter getRectFromCircle:originalStartPointCircle];
     }
     //这里也是一个小问题，只能把frame的修改放在drawRect外面，不然会有很短时间的一个闪烁。
@@ -78,19 +100,23 @@
 -(void) longPressGesturePossible{
 //    NSLog(@"%s", __func__);
     hasOutMaxStretchRadius = NO;
-    
-    originalStartPointCircle = [RedPointViewCalculateCenter getCircleFromRect:self.frame];
-    startPointCircle = [RedPointViewCalculateCenter getCircleFromRect:self.frame];
-    maxStretchCircle.centerPoint = originalStartPointCircle.centerPoint;
-    maxStretchCircle.radius = self.maxStretchRadius;
-    
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(ctx, self.redPointColor.CGColor);
-    CGContextFillEllipseInRect(ctx, self.bounds);
+   
+    if (!isOutMaxStretchRadius) {
+        originalStartPointCircle = [RedPointViewCalculateCenter getCircleFromRect:self.frame];
+        startPointCircle = [RedPointViewCalculateCenter getCircleFromRect:self.frame];
+        maxStretchCircle.centerPoint = originalStartPointCircle.centerPoint;
+        maxStretchCircle.radius = self.maxStretchRadius;
+        
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
+        CGContextSetFillColorWithColor(ctx, self.redPointColor.CGColor);
+        CGContextFillEllipseInRect(ctx, self.bounds);
+    }else{
+    }
 }
 
 -(void) longPressGestureBegan{
 //    NSLog(@"%s", __func__);
+    
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     CGContextSetFillColorWithColor(ctx, self.redPointColor.CGColor);
     CGContextFillEllipseInRect(ctx, self.bounds);
