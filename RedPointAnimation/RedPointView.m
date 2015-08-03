@@ -7,7 +7,6 @@
 //
 
 #import "RedPointView.h"
-#import "RedPointViewDelegate.h"
 #import "RedPointViewCalculateCenter.h"
 
 
@@ -16,6 +15,9 @@
     struct Circle startPointCircle;                             //当前起点处红点
     struct Circle moveToPointCircle;                       //手指当前点处红点
     struct Circle maxStretchCircle;                         //最大拉伸距离圈
+    
+    BOOL isOutMaxStretchRadius;                         //当前是否超出最大拉伸距离
+    BOOL hasOutMaxStretchRadius;                        //曾经是否超出最大拉伸距离
 }
 
 -(id) initWithFrame:(CGRect)frame redPointColor:(UIColor *)redPointColor maxStretchRadius:(CGFloat)maxStretchRadius{
@@ -26,14 +28,8 @@
         self.backgroundColor = [UIColor clearColor];
         self.isShowControlLines = YES;
         [self addGesture];
-        [self initDelegate];
     }
     return self;
-}
-
--(void) initDelegate{
-    RedPointViewDelegate *redPointViewDelegate = [[RedPointViewDelegate alloc] init];
-    self.redPointViewDelegate = redPointViewDelegate;
 }
 
 -(void) addGesture{
@@ -81,6 +77,8 @@
 
 -(void) longPressGesturePossible{
 //    NSLog(@"%s", __func__);
+    hasOutMaxStretchRadius = NO;
+    
     originalStartPointCircle = [RedPointViewCalculateCenter getCircleFromRect:self.frame];
     startPointCircle = [RedPointViewCalculateCenter getCircleFromRect:self.frame];
     maxStretchCircle.centerPoint = originalStartPointCircle.centerPoint;
@@ -109,7 +107,7 @@
     CGPoint middlePointRight;
     CGPoint middlePointLeft;
     
-    BOOL isInMaxStretchRadius = self.maxStretchRadius > [RedPointViewCalculateCenter getLengthFromPoint:moveToPointCircle.centerPoint toPoint:originalStartPointCircle.centerPoint];
+     isOutMaxStretchRadius = self.maxStretchRadius < [RedPointViewCalculateCenter getLengthFromPoint:moveToPointCircle.centerPoint toPoint:originalStartPointCircle.centerPoint];
     
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     CGContextSetFillColorWithColor(ctx, self.redPointColor.CGColor);
@@ -118,20 +116,24 @@
     //moveToPointCircle
     CGContextFillEllipseInRect(ctx, [RedPointViewCalculateCenter getRectFromCircle:moveToPointCircle]);
     
-    if (isInMaxStretchRadius) {
-        //startPointCircle
-        CGContextFillEllipseInRect(ctx, [RedPointViewCalculateCenter getRectFromCircle:startPointCircle]);
-        
-        tangentPoints = [RedPointViewCalculateCenter get4TangentPointsFromCircle:startPointCircle toCircle:moveToPointCircle];
-        middlePointRight = [RedPointViewCalculateCenter getMiddlePointFromPoint:tangentPoints[0] toPoint:tangentPoints[3]];
-        middlePointLeft = [RedPointViewCalculateCenter getMiddlePointFromPoint:tangentPoints[2] toPoint:tangentPoints[1]];
-        
-        //2条贝塞尔曲线
-        CGContextMoveToPoint(ctx, tangentPoints[0].x, tangentPoints[0].y);
-        CGContextAddQuadCurveToPoint(ctx, middlePointRight.x, middlePointRight.y, tangentPoints[1].x, tangentPoints[1].y);
-        CGContextAddLineToPoint(ctx, tangentPoints[3].x, tangentPoints[3].y);
-        CGContextAddQuadCurveToPoint(ctx, middlePointLeft.x, middlePointLeft.y, tangentPoints[2].x, tangentPoints[2].y);
-        CGContextFillPath(ctx);
+    if (!isOutMaxStretchRadius) {
+        if (!hasOutMaxStretchRadius) {
+            //startPointCircle
+            CGContextFillEllipseInRect(ctx, [RedPointViewCalculateCenter getRectFromCircle:startPointCircle]);
+            
+            tangentPoints = [RedPointViewCalculateCenter get4TangentPointsFromCircle:startPointCircle toCircle:moveToPointCircle];
+            middlePointRight = [RedPointViewCalculateCenter getMiddlePointFromPoint:tangentPoints[0] toPoint:tangentPoints[3]];
+            middlePointLeft = [RedPointViewCalculateCenter getMiddlePointFromPoint:tangentPoints[2] toPoint:tangentPoints[1]];
+            
+            //2条贝塞尔曲线
+            CGContextMoveToPoint(ctx, tangentPoints[0].x, tangentPoints[0].y);
+            CGContextAddQuadCurveToPoint(ctx, middlePointRight.x, middlePointRight.y, tangentPoints[1].x, tangentPoints[1].y);
+            CGContextAddLineToPoint(ctx, tangentPoints[3].x, tangentPoints[3].y);
+            CGContextAddQuadCurveToPoint(ctx, middlePointLeft.x, middlePointLeft.y, tangentPoints[2].x, tangentPoints[2].y);
+            CGContextFillPath(ctx);
+        }
+    }else{
+        hasOutMaxStretchRadius = YES;
     }
    
     
@@ -141,7 +143,7 @@
         
         CGContextAddEllipseInRect(ctx, [RedPointViewCalculateCenter getRectFromCircle:maxStretchCircle]);
         
-        if (isInMaxStretchRadius) {
+        if (!isOutMaxStretchRadius && !hasOutMaxStretchRadius) {
             CGContextMoveToPoint(ctx, tangentPoints[0].x, tangentPoints[0].y);
             CGContextAddQuadCurveToPoint(ctx, middlePointRight.x, middlePointRight.y, tangentPoints[1].x, tangentPoints[1].y);
             CGContextMoveToPoint(ctx, tangentPoints[2].x, tangentPoints[2].y);
@@ -166,7 +168,7 @@
         CGContextStrokePath(ctx);
     }
     
-    if (isInMaxStretchRadius) {
+    if (tangentPoints != NULL) {
         free(tangentPoints);
     }
 }

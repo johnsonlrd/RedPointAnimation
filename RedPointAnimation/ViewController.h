@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UIImageView *iconImageView;
 @property (nonatomic, strong) RedPointView *redPointView;
 @property (nonatomic, strong) UISwitch *showControlLinesSwitch;
+@property (nonatomic, strong) UISlider *originalStartPointCircleRadiusSlider;
 
 @end
 

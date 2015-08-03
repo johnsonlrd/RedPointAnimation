@@ -8,6 +8,8 @@
 
 #import "RedPointViewCalculateCenter.h"
 
+//#define recordData
+
 @implementation RedPointViewCalculateCenter
 
 +(CGRect) getRectFromCircle:(struct Circle)circle{
@@ -82,6 +84,7 @@
     CGFloat tangentPoint3Y =  kLeft* tangentPoint3X + b3;
     tangentPoints[3] = [RedPointViewCalculateCenter getConvertPointFromCGPoint:CGPointMake(tangentPoint3X, tangentPoint3Y)];
     
+#ifdef recordData
     //记录参数 debug用
     NSMutableString *paramStr = [NSMutableString stringWithFormat:@"k0:%f, d:%f, deltaRadius:%f, aR:%f, aL:%f, kR:%f, kL:%f ", k0, d, deltRadius,aRight, aLeft, kRight, kLeft];
     for (int i = 0; i < 4; i ++) {
@@ -91,6 +94,7 @@
 //    NSLog(@"%@", paramStr);
     [[RedPointViewCalculateCenter paramFileHandleInstance] seekToEndOfFile];
     [[RedPointViewCalculateCenter paramFileHandleInstance] writeData:[paramStr dataUsingEncoding:NSUTF8StringEncoding]];
+#endif
     
     return tangentPoints;
 }

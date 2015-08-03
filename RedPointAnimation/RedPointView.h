@@ -8,9 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class RedPointViewDelegate;
-@class RedPointView;
-
 @protocol RedPointViewDelegate <NSObject>
 
 -(void) handleLongPressGR:(UILongPressGestureRecognizer *)longPressGR;
@@ -21,7 +18,7 @@
 
 @property (nonatomic, strong) UIColor *redPointColor;
 @property CGFloat maxStretchRadius;
-@property (nonatomic, strong) RedPointViewDelegate *redPointViewDelegate;
+@property (nonatomic, strong) id<RedPointViewDelegate> redPointViewDelegate;
 @property (nonatomic, strong) UILongPressGestureRecognizer *longPressGR;
 @property  BOOL isShowControlLines;
 
