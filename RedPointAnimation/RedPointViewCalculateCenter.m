@@ -107,5 +107,10 @@
     return paramFileHandle;
 }
 
++(CGFloat) getStartPointCircleRadiusFromOriginalStartPointCircle:(struct Circle)originalStartPointCircle toMoveToPointCircle:(struct Circle)moveToPointCircle maxStretchRadius:(CGFloat)maxStretchRadius{
+    CGFloat factor = 1.0 - [RedPointViewCalculateCenter getLengthFromPoint:originalStartPointCircle.centerPoint toPoint:moveToPointCircle.centerPoint] / maxStretchRadius;
+    factor = factor < MIN_RADIUS_FACTOR ? MIN_RADIUS_FACTOR : factor;
+    return originalStartPointCircle.radius * factor;
+}
 
 @end

@@ -20,8 +20,11 @@
 @interface RedPointView : UIView
 
 @property (nonatomic, strong) UIColor *redPointColor;
+@property CGFloat maxStretchRadius;
 @property (nonatomic, strong) RedPointViewDelegate *redPointViewDelegate;
 @property (nonatomic, strong) UILongPressGestureRecognizer *longPressGR;
 @property  BOOL isShowControlLines;
 
+-(id) initWithFrame:(CGRect)frame redPointColor:(UIColor *)redPointColor maxStretchRadius:(CGFloat)maxStretchRadius;
+    
 @end

@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 
 #define BOUNDS_SCREEN [[UIScreen mainScreen] bounds]
+#define MIN_RADIUS_FACTOR 0.5                                               //startPointCircle当前半径相对于初始半径的最小比例 
 
 struct Circle{
     CGPoint centerPoint;
@@ -30,5 +31,7 @@ struct Circle{
 +(CGPoint)getConvertPointFromCGPoint:(CGPoint)point;
 
 +(CGPoint *)get4TangentPointsFromCircle:(struct Circle)circle0 toCircle:(struct Circle)circle1;
+
++(CGFloat) getStartPointCircleRadiusFromOriginalStartPointCircle:(struct Circle)originalStartPointCircle toMoveToPointCircle:(struct Circle)moveToPointCircle maxStretchRadius:(CGFloat)maxStretchRadius;
 
 @end
