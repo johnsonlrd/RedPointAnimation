@@ -21,6 +21,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
+        self.isShowControlLines = YES;
         [self addGesture];
         [self initDelegate];
     }
@@ -96,16 +97,17 @@
 //    NSLog(@"%s", __func__);
     moveToPointCircle.centerPoint = [self.longPressGR locationInView:self];
     moveToPointCircle.radius = 40.0;
+    startPointCircle = [RedPointViewCalculateCenter getCircleFromRect:originFrame];
     
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     CGContextSetFillColorWithColor(ctx, self.redPointColor.CGColor);
     CGContextSetStrokeColorWithColor(ctx, self.redPointColor.CGColor);
     
-    //两个圆
-    CGContextFillEllipseInRect(ctx, originFrame);
+    //2个圆
+    CGContextFillEllipseInRect(ctx, [RedPointViewCalculateCenter getRectFromCircle:startPointCircle]);
     CGContextFillEllipseInRect(ctx, [RedPointViewCalculateCenter getRectFromCircle:moveToPointCircle]);
     
-    //条贝塞尔曲线
+    //2条贝塞尔曲线
     CGPoint *tangentPoints = [RedPointViewCalculateCenter get4TangentPointsFromCircle:startPointCircle toCircle:moveToPointCircle];
     CGPoint middlePointRight = [RedPointViewCalculateCenter getMiddlePointFromPoint:tangentPoints[0] toPoint:tangentPoints[3]];
     CGPoint middlePointLeft = [RedPointViewCalculateCenter getMiddlePointFromPoint:tangentPoints[2] toPoint:tangentPoints[1]];
@@ -115,17 +117,35 @@
     CGContextAddLineToPoint(ctx, tangentPoints[3].x, tangentPoints[3].y);
     CGContextAddQuadCurveToPoint(ctx, middlePointLeft.x, middlePointLeft.y, tangentPoints[2].x, tangentPoints[2].y);
     CGContextFillPath(ctx);
-    
-    CGContextSetStrokeColorWithColor(ctx, [[UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:0.5] CGColor]);
-    CGContextMoveToPoint(ctx, tangentPoints[0].x, tangentPoints[0].y);
-    CGContextAddQuadCurveToPoint(ctx, middlePointRight.x, middlePointRight.y, tangentPoints[1].x, tangentPoints[1].y);
-    CGContextAddLineToPoint(ctx, tangentPoints[3].x, tangentPoints[3].y);
-    CGContextAddQuadCurveToPoint(ctx, middlePointLeft.x, middlePointLeft.y, tangentPoints[2].x, tangentPoints[2].y);
-    CGContextMoveToPoint(ctx, tangentPoints[0].x, tangentPoints[0].y);
-    CGContextAddLineToPoint(ctx, tangentPoints[1].x, tangentPoints[1].y);
-    CGContextMoveToPoint(ctx, tangentPoints[2].x, tangentPoints[2].y);
-    CGContextAddLineToPoint(ctx, tangentPoints[3].x, tangentPoints[3].y);
-    CGContextStrokePath(ctx);
+   
+    //显示控制线
+    if (self.isShowControlLines) {
+        CGContextSetStrokeColorWithColor(ctx, [[UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:0.5] CGColor]);
+        
+        CGContextMoveToPoint(ctx, tangentPoints[0].x, tangentPoints[0].y);
+        CGContextAddQuadCurveToPoint(ctx, middlePointRight.x, middlePointRight.y, tangentPoints[1].x, tangentPoints[1].y);
+        CGContextMoveToPoint(ctx, tangentPoints[2].x, tangentPoints[2].y);
+        CGContextAddQuadCurveToPoint(ctx, middlePointLeft.x, middlePointLeft.y, tangentPoints[3].x, tangentPoints[3].y);
+        
+        CGContextMoveToPoint(ctx, tangentPoints[0].x, tangentPoints[0].y);
+        CGContextAddLineToPoint(ctx, startPointCircle.centerPoint.x, startPointCircle.centerPoint.y);
+        CGContextAddLineToPoint(ctx, tangentPoints[2].x, tangentPoints[2].y);
+        CGContextMoveToPoint(ctx, tangentPoints[1].x, tangentPoints[1].y);
+        CGContextAddLineToPoint(ctx, moveToPointCircle.centerPoint.x, moveToPointCircle.centerPoint.y);
+        CGContextAddLineToPoint(ctx, tangentPoints[3].x, tangentPoints[3].y);
+        
+        CGContextMoveToPoint(ctx, tangentPoints[0].x, tangentPoints[0].y);
+        CGContextAddLineToPoint(ctx, tangentPoints[1].x, tangentPoints[1].y);
+        CGContextAddLineToPoint(ctx, middlePointRight.x, middlePointRight.y);
+        CGContextAddLineToPoint(ctx, tangentPoints[0].x, tangentPoints[0].y);
+        CGContextMoveToPoint(ctx, tangentPoints[2].x, tangentPoints[2].y);
+        CGContextAddLineToPoint(ctx, tangentPoints[3].x, tangentPoints[3].y);
+        CGContextAddLineToPoint(ctx, middlePointLeft.x, middlePointLeft.y);
+        CGContextAddLineToPoint(ctx, tangentPoints[2].x, tangentPoints[2].y);
+        
+        
+        CGContextStrokePath(ctx);
+    }
     
     free(tangentPoints);
 }

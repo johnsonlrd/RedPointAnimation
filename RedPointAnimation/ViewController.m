@@ -32,6 +32,11 @@
     self.redPointView = [[RedPointView alloc] initWithFrame:CGRectMake(0.0, 0.0, SIZE_REDPOINTVIEW, SIZE_REDPOINTVIEW)];
     self.redPointView.redPointColor = COLOR_REDPOINT_BACKGROUND;
     [self.view addSubview:self.redPointView];
+    
+    self.showControlLinesSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(0.0, 0.0, 100, 100)];
+    [self.showControlLinesSwitch addTarget:self action:@selector(showControlLinesSwitchValueChanged:) forControlEvents:UIControlEventValueChanged];
+    self.showControlLinesSwitch.on = YES;
+    [self.view addSubview:self.showControlLinesSwitch];
 }
 
 -(void) layoutViews{
@@ -49,6 +54,17 @@
         [self.redPointView addConstraint:[NSLayoutConstraint constraintWithItem:self.redPointView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:SIZE_REDPOINTVIEW]];
         [self.redPointView addConstraint:[NSLayoutConstraint constraintWithItem:self.redPointView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:SIZE_REDPOINTVIEW]];
     }
+    if (self.showControlLinesSwitch) {
+        self.showControlLinesSwitch.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.showControlLinesSwitch attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.showControlLinesSwitch attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:40.0]];
+        [self.showControlLinesSwitch addConstraint:[NSLayoutConstraint constraintWithItem:self.showControlLinesSwitch attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.showControlLinesSwitch.frame.size.width]];
+        [self.showControlLinesSwitch addConstraint:[NSLayoutConstraint constraintWithItem:self.showControlLinesSwitch attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.showControlLinesSwitch.frame.size.height]];
+    }
+}
+
+-(void) showControlLinesSwitchValueChanged:(UISwitch *)sender{
+    self.redPointView.isShowControlLines = sender.on;
 }
 
 @end

@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "RedPointView.h"
+#import "RedPointViewCalculateCenter.h"
 
 @interface ViewController : UIViewController
 
 @property (nonatomic, strong) UIImageView *iconImageView;
 @property (nonatomic, strong) RedPointView *redPointView;
+@property (nonatomic, strong) UISwitch *showControlLinesSwitch;
 
 @end
 

@@ -42,7 +42,7 @@
     
     CGPoint *tangentPoints = malloc(4 * sizeof(CGPoint));
     
-    CGFloat deltX =circle1.centerPoint.x - circle0.centerPoint.x;
+    CGFloat deltX = circle1.centerPoint.x - circle0.centerPoint.x;
     deltX = fabs(deltX - 0.0) < 1e-6 ? 0.001 : deltX;          //避免分母为零,little lie.
     
     CGFloat k0 = (circle1.centerPoint.y - circle0.centerPoint.y) / (deltX);
@@ -51,7 +51,7 @@
     d = fabs(d - 0.0) < 1e-6 ? 0.001 : d;
     
     CGFloat deltRadius = circle1.radius - circle0.radius;
-    deltRadius = deltRadius / d > 1.0 ? 1.0 : deltRadius;
+    deltRadius = deltRadius / d > 1.0 ? d : deltRadius;
     
     CGFloat aRight = atan(k0) + asin(deltRadius / d);
     CGFloat aLeft = atan(k0) - asin(deltRadius / d);
@@ -60,8 +60,6 @@
     
     CGFloat kRight = tan(aRight);
     CGFloat kLeft = tan(aLeft);
-    
-//    NSLog(@"k0:%f, d%f, aR:%f, aL:%f, kR:%f, kL:%f", k0, d, aRight, aLeft, kRight, kLeft);
     
     CGFloat b0 = circle0.centerPoint.y - kRight * circle0.centerPoint.x - circle0.radius / cos(aRight);
     CGFloat b1 = circle1.centerPoint.y - kRight * circle1.centerPoint.x - circle1.radius / cos(aRight);
@@ -84,12 +82,30 @@
     CGFloat tangentPoint3Y =  kLeft* tangentPoint3X + b3;
     tangentPoints[3] = [RedPointViewCalculateCenter getConvertPointFromCGPoint:CGPointMake(tangentPoint3X, tangentPoint3Y)];
     
-//    for (int i = 0; i < 4; i ++) {
-//        NSLog(@"(%f, %f)", tangentPoints[i].x, tangentPoints[i].y);
-//    }
-//    NSLog(@"\n\n");
+    //记录参数 debug用
+    NSMutableString *paramStr = [NSMutableString stringWithFormat:@"k0:%f, d:%f, deltaRadius:%f, aR:%f, aL:%f, kR:%f, kL:%f ", k0, d, deltRadius,aRight, aLeft, kRight, kLeft];
+    for (int i = 0; i < 4; i ++) {
+        [paramStr appendString:[NSString stringWithFormat:@"(%f, %f)", tangentPoints[i].x, tangentPoints[i].y]];
+    }
+    [paramStr appendString:@"\n"];
+//    NSLog(@"%@", paramStr);
+    [[RedPointViewCalculateCenter paramFileHandleInstance] seekToEndOfFile];
+    [[RedPointViewCalculateCenter paramFileHandleInstance] writeData:[paramStr dataUsingEncoding:NSUTF8StringEncoding]];
     
     return tangentPoints;
 }
+
+//参数记录文件
++(NSFileHandle *) paramFileHandleInstance{
+    static NSFileHandle *paramFileHandle;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSString *filePath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)objectAtIndex:0]stringByAppendingPathComponent:@"param.txt"];
+        [[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:nil];
+        paramFileHandle = [NSFileHandle fileHandleForWritingAtPath:filePath];
+    });
+    return paramFileHandle;
+}
+
 
 @end

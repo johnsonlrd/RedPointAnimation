@@ -22,5 +22,6 @@
 @property (nonatomic, strong) UIColor *redPointColor;
 @property (nonatomic, strong) RedPointViewDelegate *redPointViewDelegate;
 @property (nonatomic, strong) UILongPressGestureRecognizer *longPressGR;
+@property  BOOL isShowControlLines;
 
 @end
