@@ -55,13 +55,13 @@
     
     CGFloat aRight = atan(k0) + asin(deltRadius / d);
     CGFloat aLeft = atan(k0) - asin(deltRadius / d);
-    aRight = fabs(aRight - M_PI_2) < 1e-6 ? M_PI_2 + 0.001 : aRight;
-    aLeft = fabs(aLeft - M_PI_2) < 1e-6 ? M_PI_2 + 0.001 : aLeft;
+    aRight = fabs(fabs(aRight) - M_PI_2) < 1e-6 ? aRight + 0.001 : aRight;
+    aLeft = fabs(fabs(aLeft) - M_PI_2) < 1e-6 ? aLeft + 0.001 : aLeft;
     
     CGFloat kRight = tan(aRight);
     CGFloat kLeft = tan(aLeft);
     
-    NSLog(@"k0:%f, d%f, aR:%f, aL:%f, kR:%f, kL:%f", k0, d, aRight, aLeft, kRight, kLeft);
+//    NSLog(@"k0:%f, d%f, aR:%f, aL:%f, kR:%f, kL:%f", k0, d, aRight, aLeft, kRight, kLeft);
     
     CGFloat b0 = circle0.centerPoint.y - kRight * circle0.centerPoint.x - circle0.radius / cos(aRight);
     CGFloat b1 = circle1.centerPoint.y - kRight * circle1.centerPoint.x - circle1.radius / cos(aRight);
@@ -84,9 +84,10 @@
     CGFloat tangentPoint3Y =  kLeft* tangentPoint3X + b3;
     tangentPoints[3] = [RedPointViewCalculateCenter getConvertPointFromCGPoint:CGPointMake(tangentPoint3X, tangentPoint3Y)];
     
-    for (int i = 0; i < 4; i ++) {
-        NSLog(@"(%f, %f)", tangentPoints[i].x, tangentPoints[i].y);
-    }
+//    for (int i = 0; i < 4; i ++) {
+//        NSLog(@"(%f, %f)", tangentPoints[i].x, tangentPoints[i].y);
+//    }
+//    NSLog(@"\n\n");
     
     return tangentPoints;
 }
