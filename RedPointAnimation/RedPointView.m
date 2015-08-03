@@ -12,10 +12,10 @@
 
 
 @implementation RedPointView{
-    struct Circle originalStartPointCircle;
-    struct Circle startPointCircle;
-    struct Circle moveToPointCircle;
-    struct Circle maxStretchCircle;
+    struct Circle originalStartPointCircle;                 //原始起点处红点
+    struct Circle startPointCircle;                             //当前起点处红点
+    struct Circle moveToPointCircle;                       //手指当前点处红点
+    struct Circle maxStretchCircle;                         //最大拉伸距离圈
 }
 
 -(id) initWithFrame:(CGRect)frame redPointColor:(UIColor *)redPointColor maxStretchRadius:(CGFloat)maxStretchRadius{
