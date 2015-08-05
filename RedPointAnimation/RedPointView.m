@@ -10,7 +10,7 @@
 #import "RedPointViewCalculateCenter.h"
 
 #define SIZE_BOMBANIMATIONVIEW (68.0 / 2.0)
-#define DURATION_BOMBANIMATION (0.2)
+#define DURATION_BOMBANIMATION (0.4)
 
 @implementation RedPointView{
     struct Circle originalStartPointCircle;                 //原始起点处红点
@@ -46,7 +46,6 @@
     bombAnimationView.animationImages = bombAnimationImages;
     bombAnimationView.animationDuration = DURATION_BOMBANIMATION;
     bombAnimationView.animationRepeatCount = 1;
-    bombAnimationView.backgroundColor = [UIColor redColor];
     [self addSubview:bombAnimationView];
 }
 
@@ -59,14 +58,23 @@
 -(void) handleLongPressGR{
     //这里是一个小问题，本来是ended了,但是调用drawRect的时候就成了possible
     if (self.longPressGR.state == UIGestureRecognizerStateEnded) {
+        NSLog(@"end %s", __func__);
         struct Circle tmpCircle = {moveToPointCircle.centerPoint, SIZE_BOMBANIMATIONVIEW / 2.0};
         bombAnimationView.frame = [RedPointViewCalculateCenter getRectFromCircle:tmpCircle];
+        [self removeGestureRecognizer:self.longPressGR];
         [bombAnimationView startAnimating];
         
-        self.frame = [RedPointViewCalculateCenter getRectFromCircle:originalStartPointCircle];
+        dispatch_time_t bomtDuration = dispatch_time(DISPATCH_TIME_NOW, bombAnimationView.animationDuration * NSEC_PER_SEC);
+        dispatch_after(bomtDuration, dispatch_get_main_queue(), ^{
+            self.frame = [RedPointViewCalculateCenter getRectFromCircle:originalStartPointCircle];
+            [self addGestureRecognizer:self.longPressGR];
+            [self setNeedsDisplay];
+            NSLog(@"animation finished");
+        });
     }
     //这里也是一个小问题，只能把frame的修改放在drawRect外面，不然会有很短时间的一个闪烁。
     if (self.longPressGR.state == UIGestureRecognizerStateChanged) {
+        NSLog(@"changed %s", __func__);
         self.frame = BOUNDS_SCREEN;
     }
     
@@ -77,18 +85,22 @@
 -(void) drawRect:(CGRect)rect{
     switch (self.longPressGR.state) {
         case UIGestureRecognizerStatePossible:{
+            NSLog(@"possible %s", __func__);
             [self longPressGesturePossible];
             break;
         }
         case UIGestureRecognizerStateBegan:{
+            NSLog(@"began %s", __func__);
             [self longPressGestureBegan];
             break;
         }
         case UIGestureRecognizerStateChanged:{
+            NSLog(@"changed %s", __func__);
             [self longPressGestureChanged];
             break;
         }
         case UIGestureRecognizerStateEnded:{
+            NSLog(@"ended %s", __func__);
             [self longPressGestureEnded];
             break;
         }
@@ -100,8 +112,9 @@
 -(void) longPressGesturePossible{
 //    NSLog(@"%s", __func__);
     hasOutMaxStretchRadius = NO;
+    isOutMaxStretchRadius = NO;
    
-    if (!isOutMaxStretchRadius) {
+    if (!isOutMaxStretchRadius && !bombAnimationView.isAnimating) {
         originalStartPointCircle = [RedPointViewCalculateCenter getCircleFromRect:self.frame];
         startPointCircle = [RedPointViewCalculateCenter getCircleFromRect:self.frame];
         maxStretchCircle.centerPoint = originalStartPointCircle.centerPoint;
