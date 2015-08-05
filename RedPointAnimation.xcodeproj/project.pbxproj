@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		52E63AF21B6F752D0029CC58 /* RedPointBomb_4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E63AED1B6F752D0029CC58 /* RedPointBomb_4@2x.png */; };
-		52E63AF31B6F752D0029CC58 /* RedPointBomb_3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E63AEE1B6F752D0029CC58 /* RedPointBomb_3@2x.png */; };
-		52E63AF41B6F752D0029CC58 /* RedPointBomb_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E63AEF1B6F752D0029CC58 /* RedPointBomb_2@2x.png */; };
-		52E63AF51B6F752D0029CC58 /* RedPointBomb_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E63AF01B6F752D0029CC58 /* RedPointBomb_1@2x.png */; };
-		52E63AF61B6F752D0029CC58 /* RedPointBomb_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E63AF11B6F752D0029CC58 /* RedPointBomb_0@2x.png */; };
+		527DC4021B7242A20071D718 /* RedPointBomb_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 527DC3FD1B7242A20071D718 /* RedPointBomb_0@2x.png */; };
+		527DC4031B7242A20071D718 /* RedPointBomb_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 527DC3FE1B7242A20071D718 /* RedPointBomb_1@2x.png */; };
+		527DC4041B7242A20071D718 /* RedPointBomb_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 527DC3FF1B7242A20071D718 /* RedPointBomb_2@2x.png */; };
+		527DC4051B7242A20071D718 /* RedPointBomb_3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 527DC4001B7242A20071D718 /* RedPointBomb_3@2x.png */; };
+		527DC4061B7242A20071D718 /* RedPointBomb_4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 527DC4011B7242A20071D718 /* RedPointBomb_4@2x.png */; };
 		C21CA7041B6DB65400EA6E58 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C21CA7031B6DB65400EA6E58 /* main.m */; };
 		C21CA7071B6DB65400EA6E58 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C21CA7061B6DB65400EA6E58 /* AppDelegate.m */; };
 		C21CA70A1B6DB65400EA6E58 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C21CA7091B6DB65400EA6E58 /* ViewController.m */; };
@@ -35,11 +35,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		52E63AED1B6F752D0029CC58 /* RedPointBomb_4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RedPointBomb_4@2x.png"; sourceTree = "<group>"; };
-		52E63AEE1B6F752D0029CC58 /* RedPointBomb_3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RedPointBomb_3@2x.png"; sourceTree = "<group>"; };
-		52E63AEF1B6F752D0029CC58 /* RedPointBomb_2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RedPointBomb_2@2x.png"; sourceTree = "<group>"; };
-		52E63AF01B6F752D0029CC58 /* RedPointBomb_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RedPointBomb_1@2x.png"; sourceTree = "<group>"; };
-		52E63AF11B6F752D0029CC58 /* RedPointBomb_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RedPointBomb_0@2x.png"; sourceTree = "<group>"; };
+		527DC3FD1B7242A20071D718 /* RedPointBomb_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RedPointBomb_0@2x.png"; sourceTree = "<group>"; };
+		527DC3FE1B7242A20071D718 /* RedPointBomb_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RedPointBomb_1@2x.png"; sourceTree = "<group>"; };
+		527DC3FF1B7242A20071D718 /* RedPointBomb_2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RedPointBomb_2@2x.png"; sourceTree = "<group>"; };
+		527DC4001B7242A20071D718 /* RedPointBomb_3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RedPointBomb_3@2x.png"; sourceTree = "<group>"; };
+		527DC4011B7242A20071D718 /* RedPointBomb_4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RedPointBomb_4@2x.png"; sourceTree = "<group>"; };
 		C21CA6FE1B6DB65400EA6E58 /* RedPointAnimation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RedPointAnimation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C21CA7021B6DB65400EA6E58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C21CA7031B6DB65400EA6E58 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -145,11 +145,11 @@
 		C21CA72A1B6DBAA800EA6E58 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				52E63AED1B6F752D0029CC58 /* RedPointBomb_4@2x.png */,
-				52E63AEE1B6F752D0029CC58 /* RedPointBomb_3@2x.png */,
-				52E63AEF1B6F752D0029CC58 /* RedPointBomb_2@2x.png */,
-				52E63AF01B6F752D0029CC58 /* RedPointBomb_1@2x.png */,
-				52E63AF11B6F752D0029CC58 /* RedPointBomb_0@2x.png */,
+				527DC3FD1B7242A20071D718 /* RedPointBomb_0@2x.png */,
+				527DC3FE1B7242A20071D718 /* RedPointBomb_1@2x.png */,
+				527DC3FF1B7242A20071D718 /* RedPointBomb_2@2x.png */,
+				527DC4001B7242A20071D718 /* RedPointBomb_3@2x.png */,
+				527DC4011B7242A20071D718 /* RedPointBomb_4@2x.png */,
 				C21CA72B1B6DBAA800EA6E58 /* Message@2x.png */,
 			);
 			path = Images;
@@ -235,15 +235,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52E63AF61B6F752D0029CC58 /* RedPointBomb_0@2x.png in Resources */,
-				52E63AF21B6F752D0029CC58 /* RedPointBomb_4@2x.png in Resources */,
 				C21CA72C1B6DBAA800EA6E58 /* Message@2x.png in Resources */,
+				527DC4051B7242A20071D718 /* RedPointBomb_3@2x.png in Resources */,
+				527DC4021B7242A20071D718 /* RedPointBomb_0@2x.png in Resources */,
 				C21CA70D1B6DB65400EA6E58 /* Main.storyboard in Resources */,
 				C21CA7121B6DB65400EA6E58 /* LaunchScreen.xib in Resources */,
-				52E63AF41B6F752D0029CC58 /* RedPointBomb_2@2x.png in Resources */,
+				527DC4041B7242A20071D718 /* RedPointBomb_2@2x.png in Resources */,
 				C21CA70F1B6DB65400EA6E58 /* Images.xcassets in Resources */,
-				52E63AF31B6F752D0029CC58 /* RedPointBomb_3@2x.png in Resources */,
-				52E63AF51B6F752D0029CC58 /* RedPointBomb_1@2x.png in Resources */,
+				527DC4061B7242A20071D718 /* RedPointBomb_4@2x.png in Resources */,
+				527DC4031B7242A20071D718 /* RedPointBomb_1@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
