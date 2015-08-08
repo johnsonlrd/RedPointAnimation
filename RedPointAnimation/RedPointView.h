@@ -8,19 +8,29 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum : int {
+    RedPointStateOrignal = 0,
+    RedPointStateStretch,
+    RedPointStateOutOfStretchRadius,
+    RedPointStateBombing,
+    RedPointStateSpring
+} RedPointState;
+
+
 @protocol RedPointViewDelegate <NSObject>
 
--(void) handleLongPressGR:(UILongPressGestureRecognizer *)longPressGR;
+-(void) bombed;
 
 @end
+
+
 
 @interface RedPointView : UIView
 
 @property (nonatomic, strong) UIColor *redPointColor;
-@property CGFloat maxStretchRadius;
+@property (nonatomic, assign) CGFloat maxStretchRadius;
+@property (nonatomic, assign) BOOL isShowControlLines;
 @property (nonatomic, strong) id<RedPointViewDelegate> redPointViewDelegate;
-@property (nonatomic, strong) UILongPressGestureRecognizer *longPressGR;
-@property  BOOL isShowControlLines;
 
 -(id) initWithFrame:(CGRect)frame redPointColor:(UIColor *)redPointColor maxStretchRadius:(CGFloat)maxStretchRadius;
     
