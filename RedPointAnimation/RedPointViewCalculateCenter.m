@@ -117,4 +117,16 @@
     return originalStartPointCircle.radius * factor;
 }
 
++(CGPoint) getSpringPointFromOriginalPoint:(CGPoint)originalPoint toMaxMoveToPoint:(CGPoint)maxMovedPoint onTime:(double)time withCount:(int)count{
+    double deltaX;
+    double deltaY;
+    
+    double angle = RATIO_SPRING * time;
+   
+    deltaX = count / SUM_SPRING_CYCLE * (maxMovedPoint.x - originalPoint.x) * cos(angle);
+    deltaY = count / SUM_SPRING_CYCLE * (maxMovedPoint.y - originalPoint.y) * cos(angle);
+    
+    return CGPointMake(originalPoint.x + deltaX, originalPoint.y + deltaY);
+}
+
 @end

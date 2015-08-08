@@ -10,7 +10,9 @@
 #import <UIKit/UIKit.h>
 
 #define BOUNDS_SCREEN [[UIScreen mainScreen] bounds]
-#define MIN_RADIUS_FACTOR (0.5)                                               //startPointCircle当前半径相对于初始半径的最小比例 
+#define MIN_RADIUS_FACTOR (0.5)                                               //startPointCircle当前半径相对于初始半径的最小比例
+#define RATIO_SPRING (30.0)                                                          //回弹时候cos函数的系数
+#define SUM_SPRING_CYCLE (5.0)                                                    //回弹周期总数
 
 struct Circle{
     CGPoint centerPoint;
@@ -33,5 +35,7 @@ struct Circle{
 +(CGPoint *)get4TangentPointsFromCircle:(struct Circle)circle0 toCircle:(struct Circle)circle1;
 
 +(CGFloat) getStartPointCircleRadiusFromOriginalStartPointCircle:(struct Circle)originalStartPointCircle toMoveToPointCircle:(struct Circle)moveToPointCircle maxStretchRadius:(CGFloat)maxStretchRadius;
+
++(CGPoint) getSpringPointFromOriginalPoint:(CGPoint)originalPoint toMaxMoveToPoint:(CGPoint)maxMovedPoint onTime:(double) time withCount:(int)count;
 
 @end

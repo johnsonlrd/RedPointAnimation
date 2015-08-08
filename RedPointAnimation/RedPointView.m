@@ -14,10 +14,10 @@
 
 @implementation RedPointView{
     UILongPressGestureRecognizer *longPressGR;
-    
     UIImageView *bombAnimationView;                 //爆炸动画
-
     RedPointState redPointState;
+    NSTimer *springTimer;
+    int springCount;
     
     struct Circle originalStartPointCircle;                 //原始起点处红点
     struct Circle startPointCircle;                             //当前起点处红点
@@ -34,6 +34,7 @@
         self.maxStretchRadius = maxStretchRadius;
         self.isShowControlLines = YES;
         redPointState = RedPointStateOrignal;
+        springCount = SUM_SPRING_CYCLE;
         self.backgroundColor = [UIColor clearColor];
         [self initBombAnimationView];
         [self addGesture];
@@ -123,10 +124,42 @@
             redPointState = RedPointStateOrignal;
             [self setNeedsDisplay];
             
-            //delegate 
+            //delegate
             [self.redPointViewDelegate bombed];
         });
+    }else if (redPointState == RedPointStateStretch){
+        redPointState = RedPointStateSpring;
+        
+        [self removeGestureRecognizer:longPressGR];
+        NSDictionary *userInfo = @{@"maxMoveToPoint":[NSValue valueWithCGPoint:moveToPointCircle.centerPoint], @"startTime":[NSDate date]};
+        springTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 / 100 target:self selector:@selector(onSpring:) userInfo:userInfo repeats:YES];
     }
+}
+
+-(void) onSpring:(NSTimer *)timer{
+    CGPoint maxMoveToPoint = [[timer.userInfo objectForKey:@"maxMoveToPoint"] CGPointValue];
+    NSDate *startDate = [timer.userInfo objectForKey:@"startTime"];
+    double time = [[NSDate date]  timeIntervalSinceDate:startDate];
+    
+    CGPoint newMoveToPoint = [RedPointViewCalculateCenter getSpringPointFromOriginalPoint:originalStartPointCircle.centerPoint toMaxMoveToPoint:maxMoveToPoint onTime:time withCount:springCount];
+    if ((moveToPointCircle.centerPoint.x - originalStartPointCircle.centerPoint.x) * (newMoveToPoint.x - originalStartPointCircle.centerPoint.x) < 0) {
+        springCount --;
+    }
+    
+    if (springCount > 0) {
+        moveToPointCircle.centerPoint = newMoveToPoint;
+    }else{
+        redPointState = RedPointStateOrignal;
+        
+        self.frame = [RedPointViewCalculateCenter getRectFromCircle:originalStartPointCircle];
+        springCount = SUM_SPRING_CYCLE;
+        [self addGestureRecognizer:longPressGR];
+        [springTimer invalidate];
+    }
+    
+    startPointCircle.radius = [RedPointViewCalculateCenter getStartPointCircleRadiusFromOriginalStartPointCircle:originalStartPointCircle toMoveToPointCircle:moveToPointCircle maxStretchRadius:self.maxStretchRadius];
+    
+    [self setNeedsDisplay];
 }
 
 #pragma mark draw rect
@@ -143,6 +176,10 @@
         }
         case RedPointStateOutOfStretchRadius:{
             [self drawOnRedPointStateOutOfStretch];
+            break;
+        }
+        case RedPointStateSpring:{
+            [self drawOnRedPointStateSpring];
             break;
         }
             
@@ -235,159 +272,9 @@
     }
 }
 
-//-(void) handleLongPressGR{
-//    if (self.longPressGR.state == UIGestureRecognizerStateEnded) {
-//        NSLog(@"end %s", __func__);
-//        struct Circle tmpCircle = {moveToPointCircle.centerPoint, SIZE_BOMBANIMATIONVIEW / 2.0};
-//        bombAnimationView.frame = [RedPointViewCalculateCenter getRectFromCircle:tmpCircle];
-//        [self removeGestureRecognizer:self.longPressGR];
-//        [bombAnimationView startAnimating];
-//        
-//        dispatch_time_t bomtDuration = dispatch_time(DISPATCH_TIME_NOW, bombAnimationView.animationDuration * NSEC_PER_SEC);
-//        dispatch_after(bomtDuration, dispatch_get_main_queue(), ^{
-//            self.frame = [RedPointViewCalculateCenter getRectFromCircle:originalStartPointCircle];
-//            [self addGestureRecognizer:self.longPressGR];
-//            [self setNeedsDisplay];
-//            NSLog(@"animation finished");
-//        });
-//    }
-//    if (self.longPressGR.state == UIGestureRecognizerStateChanged) {
-//        NSLog(@"changed %s", __func__);
-//        self.frame = BOUNDS_SCREEN;
-//        moveToPointCircle = originalStartPointCircle;
-//        moveToPointCircle.centerPoint = [self.longPressGR locationInView:self];
-//        startPointCircle.radius = [RedPointViewCalculateCenter getStartPointCircleRadiusFromOriginalStartPointCircle:originalStartPointCircle toMoveToPointCircle:moveToPointCircle maxStretchRadius:self.maxStretchRadius];
-//        isOutMaxStretchRadius = self.maxStretchRadius < [RedPointViewCalculateCenter getLengthFromPoint:moveToPointCircle.centerPoint toPoint:originalStartPointCircle.centerPoint];
-//    }
-//    
-//    [self setNeedsDisplay];
-//    [self.redPointViewDelegate handleLongPressGR:self.longPressGR];
-//}
-//
-//-(void) drawRect:(CGRect)rect{
-//    switch (self.longPressGR.state) {
-//        case UIGestureRecognizerStatePossible:{
-//            NSLog(@"possible %s", __func__);
-//            [self longPressGesturePossible];
-//            break;
-//        }
-//        case UIGestureRecognizerStateBegan:{
-//            NSLog(@"began %s", __func__);
-//            [self longPressGestureBegan];
-//            break;
-//        }
-//        case UIGestureRecognizerStateChanged:{
-//            NSLog(@"changed %s", __func__);
-//            [self longPressGestureChanged];
-//            break;
-//        }
-//        case UIGestureRecognizerStateEnded:{
-//            NSLog(@"ended %s", __func__);
-//            [self longPressGestureEnded];
-//            break;
-//        }
-//        default:
-//            break;
-//    }
-//}
-//
-//-(void) longPressGesturePossible{
-////    NSLog(@"%s", __func__);
-//    hasOutMaxStretchRadius = NO;
-//    isOutMaxStretchRadius = NO;
-//   
-//    if (!bombAnimationView.isAnimating) {
-//        originalStartPointCircle = [RedPointViewCalculateCenter getCircleFromRect:self.frame];
-//        startPointCircle = [RedPointViewCalculateCenter getCircleFromRect:self.frame];
-//        maxStretchCircle.centerPoint = originalStartPointCircle.centerPoint;
-//        maxStretchCircle.radius = self.maxStretchRadius;
-//        
-//        CGContextRef ctx = UIGraphicsGetCurrentContext();
-//        CGContextSetFillColorWithColor(ctx, self.redPointColor.CGColor);
-//        CGContextFillEllipseInRect(ctx, self.bounds);
-//    }else{
-//    }
-//}
-//
-//-(void) longPressGestureBegan{
-////    NSLog(@"%s", __func__);
-//    
-//    CGContextRef ctx = UIGraphicsGetCurrentContext();
-//    CGContextSetFillColorWithColor(ctx, self.redPointColor.CGColor);
-//    CGContextFillEllipseInRect(ctx, self.bounds);
-//}
-//
-//-(void) longPressGestureChanged{
-////    NSLog(@"%s", __func__);
-//   
-//    CGPoint *tangentPoints = NULL;
-//    CGPoint middlePointRight;
-//    CGPoint middlePointLeft;
-//    
-//    CGContextRef ctx = UIGraphicsGetCurrentContext();
-//    CGContextSetFillColorWithColor(ctx, self.redPointColor.CGColor);
-//    CGContextSetStrokeColorWithColor(ctx, self.redPointColor.CGColor);
-//    //moveToPointCircle
-//    CGContextFillEllipseInRect(ctx, [RedPointViewCalculateCenter getRectFromCircle:moveToPointCircle]);
-//    
-//    if (!isOutMaxStretchRadius) {
-//        if (!hasOutMaxStretchRadius) {
-//            //startPointCircle
-//            CGContextFillEllipseInRect(ctx, [RedPointViewCalculateCenter getRectFromCircle:startPointCircle]);
-//            
-//            tangentPoints = [RedPointViewCalculateCenter get4TangentPointsFromCircle:startPointCircle toCircle:moveToPointCircle];
-//            middlePointRight = [RedPointViewCalculateCenter getMiddlePointFromPoint:tangentPoints[0] toPoint:tangentPoints[3]];
-//            middlePointLeft = [RedPointViewCalculateCenter getMiddlePointFromPoint:tangentPoints[2] toPoint:tangentPoints[1]];
-//            
-//            //2条贝塞尔曲线
-//            CGContextMoveToPoint(ctx, tangentPoints[0].x, tangentPoints[0].y);
-//            CGContextAddQuadCurveToPoint(ctx, middlePointRight.x, middlePointRight.y, tangentPoints[1].x, tangentPoints[1].y);
-//            CGContextAddLineToPoint(ctx, tangentPoints[3].x, tangentPoints[3].y);
-//            CGContextAddQuadCurveToPoint(ctx, middlePointLeft.x, middlePointLeft.y, tangentPoints[2].x, tangentPoints[2].y);
-//            CGContextFillPath(ctx);
-//        }
-//    }else{
-//        hasOutMaxStretchRadius = YES;
-//    }
-//   
-//    
-//    //显示控制线
-//    if (self.isShowControlLines) {
-//        CGContextSetStrokeColorWithColor(ctx, [[UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:0.5] CGColor]);
-//        
-//        CGContextAddEllipseInRect(ctx, [RedPointViewCalculateCenter getRectFromCircle:maxStretchCircle]);
-//        
-//        if (!isOutMaxStretchRadius && !hasOutMaxStretchRadius) {
-//            CGContextMoveToPoint(ctx, tangentPoints[0].x, tangentPoints[0].y);
-//            CGContextAddQuadCurveToPoint(ctx, middlePointRight.x, middlePointRight.y, tangentPoints[1].x, tangentPoints[1].y);
-//            CGContextMoveToPoint(ctx, tangentPoints[2].x, tangentPoints[2].y);
-//            CGContextAddQuadCurveToPoint(ctx, middlePointLeft.x, middlePointLeft.y, tangentPoints[3].x, tangentPoints[3].y);
-//            
-//            CGContextMoveToPoint(ctx, tangentPoints[0].x, tangentPoints[0].y);
-//            CGContextAddLineToPoint(ctx, startPointCircle.centerPoint.x, startPointCircle.centerPoint.y);
-//            CGContextAddLineToPoint(ctx, tangentPoints[2].x, tangentPoints[2].y);
-//            CGContextMoveToPoint(ctx, tangentPoints[1].x, tangentPoints[1].y);
-//            CGContextAddLineToPoint(ctx, moveToPointCircle.centerPoint.x, moveToPointCircle.centerPoint.y);
-//            CGContextAddLineToPoint(ctx, tangentPoints[3].x, tangentPoints[3].y);
-//            
-//            CGContextMoveToPoint(ctx, tangentPoints[0].x, tangentPoints[0].y);
-//            CGContextAddLineToPoint(ctx, tangentPoints[1].x, tangentPoints[1].y);
-//            CGContextAddLineToPoint(ctx, middlePointRight.x, middlePointRight.y);
-//            CGContextAddLineToPoint(ctx, tangentPoints[0].x, tangentPoints[0].y);
-//            CGContextMoveToPoint(ctx, tangentPoints[2].x, tangentPoints[2].y);
-//            CGContextAddLineToPoint(ctx, tangentPoints[3].x, tangentPoints[3].y);
-//            CGContextAddLineToPoint(ctx, middlePointLeft.x, middlePointLeft.y);
-//            CGContextAddLineToPoint(ctx, tangentPoints[2].x, tangentPoints[2].y);
-//        }
-//        CGContextStrokePath(ctx);
-//    }
-//    
-//    if (tangentPoints != NULL) {
-//        free(tangentPoints);
-//    }
-//}
-//
-//-(void) longPressGestureEnded{
-//}
+-(void) drawOnRedPointStateSpring{
+    [self drawOnRedPointStateStretch];
+}
+
 
 @end
