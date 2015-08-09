@@ -30,9 +30,6 @@
     self.iconImageView.image = [UIImage imageNamed:@"Message"];
     [self.view addSubview:self.iconImageView];
     
-    self.redPointView = [[RedPointView alloc] initWithFrame:CGRectMake(0.0, 0.0, SIZE_REDPOINTVIEW, SIZE_REDPOINTVIEW) redPointColor:COLOR_REDPOINT_BACKGROUND maxStretchRadius:RADIUS_MAX_STRETCH];
-    [self.view addSubview:self.redPointView];
-    
     self.showControlLinesSwitch = [[UISwitch alloc] init];
     [self.showControlLinesSwitch addTarget:self action:@selector(showControlLinesSwitchValueChanged:) forControlEvents:UIControlEventValueChanged];
     self.showControlLinesSwitch.on = YES;
@@ -44,6 +41,9 @@
     self.originalStartPointCircleRadiusSlider.value = 1.0;
     [self.originalStartPointCircleRadiusSlider addTarget:self action:@selector(originalStartPointCircleRadiusSliderValueChanged:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:self.originalStartPointCircleRadiusSlider];
+    
+    self.redPointView = [[RedPointView alloc] initWithFrame:CGRectMake(0.0, 0.0, SIZE_REDPOINTVIEW, SIZE_REDPOINTVIEW) redPointColor:COLOR_REDPOINT_BACKGROUND maxStretchRadius:RADIUS_MAX_STRETCH];
+    [self.view addSubview:self.redPointView];
 }
 
 -(void) layoutViews{
